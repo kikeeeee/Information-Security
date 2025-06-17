@@ -29,6 +29,7 @@ Il **Birthday Attack** è un attacco crittografico che sfrutta il paradosso del 
 <details>
   <summary>Descrivere le caratteristiche dei PRNG crittograficamente sicuri e fare eventuali schemi di dimensionamento. Descrivere, inoltre per quali motivi nei cifrari a flusso si utilizzano principalmente PRNG crittograficamente sicuri al posto dei TRNG: fornire infine esempi di uso dei TRNG in ambito di crittografia moderna.
 </summary>
+  
 I PRNG crittograficamente sicuri devono avere le seguenti caratteristiche:
 
   **Casualità dei bit di uscita:** che si verifica sottoponendo l’uscita ad una serie di test statistici previsti dallo standard FIPS 140-2
