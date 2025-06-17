@@ -1,6 +1,7 @@
 <details>
   <summary>Descrivere tutte le proprietà delle funzioni hash crittograficamente sicure e almeno un esempio di attacco alle funzioni hash crittograficamente sicure.
 </summary>
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------
   Proprietà delle funzioni hash crittograficamente sicure
 
 Una funzione hash crittograficamente sicura deve soddisfare le seguenti proprietà:
