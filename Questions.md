@@ -43,7 +43,9 @@ Sicurezza a 128 bit ⇒ seed di almeno 128 bit.
 Sicurezza a 256 bit ⇒ seed di almeno 256 bit.
 
 Nei **cifrari a flusso** si utilizzano principalmente PRNG crittograficamente sicuri al posto dei TRNG perché questi ultimi hanno un grosso limite legato alla frequenza di generazione. La maggior parte degli scenari applicativi richiede una frequenza molto alta di generazione di chiave che il TRNG non può garantire, perché quest’ultimo estrae bit casuali da fenomeni fisici che non si verificano in base alle nostre esigenze. Un secondo motivo è legato alla non riproducibilità del flusso di uscita che caratterizza i TRNG e che è fondamentale ai fini dell’implementazione di un cifrario a flusso.
+**Esempi di utilizzo** di TRNG in ambito della crittografia moderna sono tutti i componenti crittografici che richiedono un seed iniziale casuale, imprevedibile e indeducibile come appunto i PRNG crittograficamente sicuri, oppure una chiave segreta che necessariamente deve essere generata in modo da essere casuale, imprevedibile e indeducibile, come le funzioni di Encryption.
 
+</details>
 <details>
 <summary>Indicare le limitazioni di un TRNG se usato in cifrari simmetrici</summary>
 Le limitazioni nell’uso di un TRNG per implementare un cifrario simmetrico si evidenziano nel caso di cifrari a flusso.
@@ -52,6 +54,4 @@ Nei cifrari a flusso non è possibile utilizzare TRNG per la generazione del flu
   
 </details>
 
-**Esempi di utilizzo** di TRNG in ambito della crittografia moderna sono tutti i componenti crittografici che richiedono un seed iniziale casuale, imprevedibile e indeducibile come appunto i PRNG crittograficamente sicuri, oppure una chiave segreta che necessariamente deve essere generata in modo da essere casuale, imprevedibile e indeducibile, come le funzioni di Encryption.
 
-</details>
