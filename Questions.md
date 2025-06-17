@@ -5,10 +5,10 @@
   **Una funzione hash crittograficamente sicura deve soddisfare le seguenti proprietà:**  
 
 1. **Efficienza**  
-   Deve essere computazionalmente facile calcolare l’hash \( H(x) \) per ogni input \( x \).
+   Deve essere computazionalmente facile calcolare l’hash \( H(x) \) per ogni input \( x \) indipendentemente dalla sua lunghezza.
 
 2. **Unidirezionalità**  
-   Deve essere computazionalmente difficile risalire all’input \( x \) dato solo \( H(x) \).
+   Deve essere computazionalmente difficile risalire all’input \( x \) data solo l'impronta\( H(x) \).
 
 3. **Resistenza debole alle collisioni**  
    Dato un input \( x \), deve essere difficile trovare un altro input \( y \ne x \) tale che \( H(y) = H(x) \).
