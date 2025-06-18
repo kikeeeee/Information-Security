@@ -48,14 +48,16 @@ Nei **cifrari a flusso** si utilizzano principalmente PRNG crittograficamente si
 </details>
 <details>
 <summary>Indicare le limitazioni di un TRNG se usato in cifrari simmetrici</summary>
-Le limitazioni nell’uso di un TRNG per implementare un cifrario simmetrico si evidenziano nel caso di cifrari a flusso.
+
+  **Le limitazioni nell’uso di un TRNG** per implementare un cifrario simmetrico si evidenziano nel caso di cifrari a flusso.
 Nei cifrari a flusso non è possibile utilizzare TRNG per la generazione del flusso di chiave perché c’è un limite intrinseco legato alla frequenza di generazione. La maggior parte degli scenari applicativi richiede una frequenza molto alta di generazione di chiave che il TRNG non può garantire, perché quest’ultimo estrae bit casuali da fenomeni fisici che non si verificano in base alle nostre esigenze. Un secondo motivo è legato alla non riproducibilità del flusso di uscita che caratterizza i TRNG e che è fondamentale ai fini dell’implementazione di un cifrario a flusso.
 
 </details>
 
 <details>
 <summary>Descrivere l'attacco con estensione alle funzioni hash crittograficamente sicure fornendo anche schemi di spiegazione</summary>
-L’attacco con estensione della lunghezza del messaggio (length extension attack) colpisce tutte quelle situazioni in cui una funzione hash crittograficamente sicura viene implementata secondo lo schema di compressione iterata, caratteristico di algoritmi come MD5, SHA-1 e SHA-2. Questo schema, pur garantendo efficienza e modularità, introduce una vulnerabilità strutturale sfruttabile in particolari condizioni d’uso, in particolare quando la funzione hash viene impiegata per generare un codice di autenticazione (MAC) del tipo H(s || m), dove s è un segreto condiviso tra il mittente e il destinatario, e m è il messaggio da autenticare.
+
+  **L’attacco con estensione della lunghezza del messaggio (length extension attack)** colpisce tutte quelle situazioni in cui una funzione hash crittograficamente sicura viene implementata secondo lo schema di compressione iterata, caratteristico di algoritmi come MD5, SHA-1 e SHA-2. Questo schema, pur garantendo efficienza e modularità, introduce una vulnerabilità strutturale sfruttabile in particolari condizioni d’uso, in particolare quando la funzione hash viene impiegata per generare un codice di autenticazione (MAC) del tipo H(s || m), dove s è un segreto condiviso tra il mittente e il destinatario, e m è il messaggio da autenticare.
 
 In questo contesto, un attaccante che riesca a ottenere l’impronta H(s || m) pur senza conoscere il valore del segreto s, può sfruttare le caratteristiche iterative della funzione hash per costruire un nuovo messaggio m* = m || padding || m′ e calcolarne un hash valido H(s || m || padding || m′), dove m′ è un’estensione arbitraria scelta dall’attaccante. Il principio chiave dell’attacco è che l’hash H(s || m) rappresenta lo stato intermedio della funzione di compressione subito dopo l’elaborazione di s || m. Utilizzando questo stato come punto di partenza, l’attaccante può continuare la computazione dell’hash in modo coerente, come se fosse stato il mittente legittimo.
 
