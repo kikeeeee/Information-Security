@@ -18,3 +18,16 @@ Al termine dei blocchi reali del messaggio, la funzione hash aggiunge in automat
 
 Questo schema è efficiente e riutilizzabile, ma presenta una debolezza strutturale importante: la prevedibilità e modularità dello stato interno a ogni passo. Infatti, l’output della funzione f dopo ogni blocco diventa il nuovo stato da cui si può continuare il calcolo. Proprio questa proprietà viene sfruttata nel length extension attack: se un attaccante conosce il valore hash H(s || m) di un messaggio autenticato con un segreto s anteposto, e riesce a indovinare la lunghezza di s, può simulare l’intero schema a partire da H(s || m), aggiungendo nuovi blocchi m′ e proseguendo la computazione come se fosse l’autore originale del messaggio. Per questo motivo, lo schema di compressione iterata è stato abbandonato nelle funzioni hash moderne come SHA-3, che adottano strutture più resistenti a questo tipo di attacchi.
 </details>
+<details>
+  <summary>
+    Schema KDC
+  </summary>
+  
+  **Come funziona lo schema KDC** presente nel file: 
+  **1)** A invia al KDC:
+
+R_A: un nonce (numero casuale) per prevenire replay.
+
+A e B: identificativi delle entità che vogliono comunicare.
+
+</details>
