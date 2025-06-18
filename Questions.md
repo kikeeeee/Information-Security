@@ -185,4 +185,21 @@ Un TRNG non può essere utilizzato per generare un flusso di chiavi per due moti
 
 </details>
 
+<details>
+  <summary>
+    Descrivere le vulnerabilità dell'utilizzo della modalità Electronic Code Book e descrivere in maniera esaustiva la modalità Cipher Block Chaining evidenziandone vantaggi e svantaggi.
+  </summary>
+  
+  **La modalità di cifratura ECB** prevede che ogni blocco di testo in chiaro sia cifrato in maniera indipendente e totalmente scollegata dagli altri blocchi. Questo provoca un forte determinismo perché l’uscita non sarà veramente aleatoria; basti pensare che a blocchi di testo in chiaro identici corrisponderanno blocchi di cifrato identici. In questo modo viene violato un principio cardine della riservatezza, ovvero quello secondo cui un intrusore dall’osservazione del canale non deve poter imparare nulla di più di ciò che conosceva prima. Se si utilizza la modalità ECB per cifrare due volte lo stesso messaggio, a un intrusore basta osservare il canale per capire subito che è stato inviato per due volte lo stesso messaggio, quindi la riservatezza non è garantita. Dunque, la modalità ECB non è in grado di nascondere certe caratteristiche del testo in chiaro e, come avviene in questi casi, un crittoanalista esperto dalla sola analisi del cifrato ci potrà dedurre molte informazion
+
+**La modalità CBC** prevede che ogni blocco di testo cifrato dipenda da tutti i blocchi precedenti di testo in chiaro. La struttura è una pipeline in cui ogni blocco di testo in chiaro, prima di essere cifrato con una trasformazione di encryption che ha la chiave segreta di cifratura k uguale per tutti i blocchi, viene sommato modulo 2 con il blocco cifrato ottenuto al passo precedente. In questo modo si elimina quel determinismo che si ha nella modalità ECB. Per evitare all’intrusore di capire se sono stati cifrati due blocchi uguali o con la stessa intestazione, il blocco di testo in chiaro, prima della cifratura, viene sommato modulo 2 con un vettore di inizializzazione non segreto, ma che deve essere invece casuale, imprevedibile e usato una e una sola volta. L’ultimo blocco di cifrato inoltre viene riempito secondo opportune tecniche di padding.
+**I vantaggi** della modalità CBC sono:
+* Aleatorietà dell’uscita, a patto che il vettore di inizializzazione sia casuale, imprevedibile e usato una e una sola volta.
+**Gli svantaggi** sono:
+* La struttura a pipeline impedisce il processamento in parallelo dei singoli blocchi, quindi efficienza minore rispetto alla modalità ECB
+* Il padding introduce un overhead (anche EBC ha il padding, è un malus ma non è un peggioramento rispetto a ECB)
+* Se viene meno l’integrità di un blocco di cifrato l’errore si propaga anche sui blocchi successivi
+* In fase di decifrazione viene usata la funzione inversa D, quindi in caso di implementazione hardware non può essere utilizzatolo lo stesso componente per la stazione trasmittente e quella ricevente.
+
+</details>
 
