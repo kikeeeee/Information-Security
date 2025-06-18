@@ -178,8 +178,8 @@ I cifrari a blocchi in linea generale si ispirano ai cifrari poligrafici compost
 La generazione del flusso di chiave usato nei cifrari a flusso deve essere assolutamente casuale, imprevedibile, indeducibile e usata una volta sola.
 Un TRNG non può essere utilizzato per generare un flusso di chiavi per due motivi:
 
-*Per sua natura non permette riproducibilità del flusso di chiave, e questo è fondamentale nei cifrari a flusso in cui è necessario avere lo stesso flusso di chiave lato sorgente e lato destinazione.
-*Per sua natura il TRNG non può garantire un’elevata frequenza di generazione, in quanto la sequenza di bit casuali viene estratta da un processo di campionamento, filtraggio e post-produzione di fenomeni naturali che non possono verificarsi in base alle nostre esigenze.
+* Per sua natura non permette riproducibilità del flusso di chiave, e questo è fondamentale nei cifrari a flusso in cui è necessario avere lo stesso flusso di chiave lato sorgente e lato destinazione.
+* Per sua natura il TRNG non può garantire un’elevata frequenza di generazione, in quanto la sequenza di bit casuali viene estratta da un processo di campionamento, filtraggio e post-produzione di fenomeni naturali che non possono verificarsi in base alle nostre esigenze.
 
 </details>
 
