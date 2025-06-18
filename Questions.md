@@ -147,8 +147,27 @@ Infine, **la modalità CTR (Counter Mode)** impiega un contatore che viene cifra
 </details>
 
 
+<details>
+  <summary>
+    Descrivere il problema della malleabilità dei cifrari simmetrici a flusso
+  </summary>
+  
+  **I cifrari simmetrici a flusso** eseguono l’operazione di cifratura e decifrazione per mezzo di una somma modulo 2 tra il messaggio in chiaro e un flusso di chiave. Il problema della malleabilità è una vulnerabilità insita in questo schema e nelle proprietà dell’operazione di XOR e consiste nella possibilità, sotto opportune ipotesi non comuni ma comunque possibili, dell’intrusore nel modificare il cifrato in maniera tale da avere a valle dell’operazione di decifrazione un effetto da lui voluto.
+Le ipotesi sono che l’intrusore sia in grado di effettuare degli attacchi attivi sul canale di comunicazione e che abbia delle conoscenze pregresse sul contenuto del messaggio che sorgente e destinazione legittime si scambiano. In questi casi, se ci troviamo in uno scenario in cui il messaggio cifrato è fortemente strutturato, e l’intrusore è a conoscenza di questa struttura, il pericolo a fronte di un attacco che sfrutta la malleabilità è particolarmente concreto.
+Supponiamo che, ad esempio, il messaggio strutturato sia un messaggio in cui il primo campo è sempre il mittente, che chiamiamo Mit1; dunque, i primi bit del cifrato si riferiscano al mittente legittimo rappresentato in forma esadecimale. Se l’intrusore sa a chi è destinato un messaggio, quindi è a conoscenza di Mit1, senza conoscere nulla sulla chiave potrebbe addirittura modificare il campo mittente con un mittente arbitrario di sua scelta Mit2. Gli basterà modificare quei bit di cifrato sommandoli modulo 2 con Mit1 XOR Mit2.
 
+Se indichiamo con K i bit di chiave che cifrano i bit relativi alla rappresentazione esadecimale del campo mittente, avremo in fase di decifrazione un messaggio così composto: Mit1 XOR K XOR Mit1 XOR Mit2 XOR K.
+Dal momento che per le proprietà dello XOR i termini uguali si elidono, il risultato sarà che il destinatario decifrerà un messaggio in cui il campo mittente ha la rappresentazione esadecimale di Mit2, il mittente scelto dall’attaccante.
 
+</details>
+
+<details>
+  <summary>Evidenziare qual è la differenza tra una cifratura a flussi e una cifratura a blocchi e in quali scenari applicativi è preferibile utilizzare un cifrario rispetto ad un altro.
+</summary>
+  I cifrari a flusso si ispirano al cifrario perfetto della crittografia classica denominato One Time Pad e prevedono che uno o pochi bit alla volta del messaggio in chiaro siano sommati modulo due con un flusso di chiave opportunamente generato. Lo scenario applicativo in cui è preferibile utilizzare i cifrari a flusso è quello di trasmissione di dati orientata al flusso, come applicazioni web, telefonia, ecc., perché per come è implementato non introduce rallentamenti; quindi, tipicamente risulta più veloce di un cifrario a blocchi.
+I cifrari a blocchi in linea generale si ispirano ai cifrari poligrafici composti della Teoria di Shannon secondo cui, per rendere sicuro ai fini della riservatezza un cifrario che non è perfetto, bisogna eseguire iterativamente operazioni di trasposizione e sostituzione su blocchi di messaggio in chiaro, al fine di ottenere confusione e diffusione. Quindi i cifrari a blocchi prevedono che il messaggio in chiaro sia suddiviso in blocchi di grandezza variabile a seconda della modalità di cifratura. Gli scenari in cui è preferibile utilizzare questi cifrari sono applicazioni asincrone, store and forward, come di protezione di file, pacchetti, strutture dati, posta elettronica, perché è più facile impiegare correttamente un cifrario a blocchi rispetto a un cifrario a flusso, e comunque, un cifrario a blocchi usato scorrettamente risulta comunque più sicuro di un cifrario a flusso usato scorrettamente.
+
+</details>
 
 
 
