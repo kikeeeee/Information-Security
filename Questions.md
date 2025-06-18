@@ -55,7 +55,51 @@ Nei cifrari a flusso non è possibile utilizzare TRNG per la generazione del flu
 
 <details>
 <summary>Descrivere l'attacco con estensione alle funzioni hash crittograficamente sicure fornendo anche schemi di spiegazione</summary>
-L’attacco con estensione della lunghezza del messaggio, conosciuto come length extension attack, è un attacco crittografico che sfrutta una debolezza strutturale di molte funzioni hash classiche, come MD5, SHA-1 e SHA-2, tutte costruite secondo lo schema di Merkle-Damgård. Questo schema prevede che il messaggio venga diviso in blocchi e che ogni blocco venga elaborato iterativamente, aggiornando uno stato interno (detto chaining value) che alla fine produce l’impronta (hash) del messaggio. Inoltre, queste funzioni aggiungono automaticamente un padding al messaggio prima di calcolare l’hash, in base alla lunghezza del messaggio originale. In contesti in cui si desidera autenticare un messaggio m usando un segreto condiviso s con una costruzione come H(s || m), questa struttura può essere sfruttata da un attaccante che voglia estendere il messaggio originale con contenuto arbitrario senza conoscere il segreto s. Supponiamo che un mittente (Alice) invii a un destinatario (Bob) un messaggio m accompagnato da H(s || m), per dimostrare che il messaggio proviene da una fonte legittima. Un attaccante che intercetta questa comunicazione ottiene sia m che H(s || m) ma non conosce s. Tuttavia, conoscendo la lunghezza del messaggio m e stimando quella del segreto s (ad esempio, 16 byte), l’attaccante può calcolare quale padding verrebbe automaticamente aggiunto a s || m dalla funzione hash. Poiché lo stato interno della funzione hash dopo aver processato s || m è noto (è esattamente H(s || m)), l’attaccante può riutilizzare questo stato interno come punto di partenza per continuare la computazione dell’hash, aggiungendo un nuovo blocco di dati m′ scelto arbitrariamente. In questo modo, ottiene un nuovo valore hash H(s || m || padding || m′) senza conoscere il segreto, ma solo riutilizzando ciò che la funzione hash avrebbe fatto internamente. Il risultato è che l’attaccante può costruire un nuovo messaggio m* = m || padding || m′ e un hash falso valido, che sarà accettato dal destinatario come se provenisse da Alice, poiché il valore dell’hash combacia con quello che il destinatario calcolerebbe normalmente. Questo attacco si basa quindi sulla possibilità di estendere un messaggio autenticato senza invalidare il codice di autenticazione, semplicemente continuando la computazione dell’hash già avviata, sfruttando la struttura iterativa e il padding automatico. È importante notare che questo attacco è possibile solo se il segreto viene anteposto al messaggio (s || m), non se viene posto alla fine (m || s), perché in quest’ultimo caso l’attaccante non può calcolare l’hash corretto senza conoscere il segreto. Le contromisure principali consistono nell’uso di HMAC (Hash-based Message Authentication Code), una costruzione sicura che include il segreto in maniera resistente a questo tipo di estensione, e nell’adozione di funzioni hash più moderne come SHA-3, che non seguono lo schema di Merkle-Damgård e sono quindi immuni a questa classe di attacchi.
-![lenght](images/lenght.png)
+L’attacco con estensione della lunghezza del messaggio (length extension attack) colpisce tutte quelle situazioni in cui una funzione hash crittograficamente sicura viene implementata secondo lo schema di compressione iterata, caratteristico di algoritmi come MD5, SHA-1 e SHA-2. Questo schema, pur garantendo efficienza e modularità, introduce una vulnerabilità strutturale sfruttabile in particolari condizioni d’uso, in particolare quando la funzione hash viene impiegata per generare un codice di autenticazione (MAC) del tipo H(s || m), dove s è un segreto condiviso tra il mittente e il destinatario, e m è il messaggio da autenticare.
+
+In questo contesto, un attaccante che riesca a ottenere l’impronta H(s || m) pur senza conoscere il valore del segreto s, può sfruttare le caratteristiche iterative della funzione hash per costruire un nuovo messaggio m* = m || padding || m′ e calcolarne un hash valido H(s || m || padding || m′), dove m′ è un’estensione arbitraria scelta dall’attaccante. Il principio chiave dell’attacco è che l’hash H(s || m) rappresenta lo stato intermedio della funzione di compressione subito dopo l’elaborazione di s || m. Utilizzando questo stato come punto di partenza, l’attaccante può continuare la computazione dell’hash in modo coerente, come se fosse stato il mittente legittimo.
+
+L’unica difficoltà per l’attaccante sta nell’indovinare la lunghezza di s, necessaria per calcolare correttamente il padding. Tuttavia, se s è di lunghezza nota o prevedibile (ad esempio una chiave fissa di 16 o 32 byte), questa operazione è del tutto fattibile. Una volta stimata correttamente la lunghezza, l’attaccante è in grado di riprodurre il padding che la funzione hash avrebbe aggiunto automaticamente a s || m, e proseguire con i blocchi di m′ utilizzando lo stesso schema iterativo.
+
+Anche nei casi in cui lo schema di compressione iterata includa padding alla fine del messaggio, l’attacco resta pericoloso. Questo è particolarmente vero quando il messaggio m ha forma numerica o binaria e il sistema ricevente non è in grado di distinguere tra messaggi originari e quelli estesi artificialmente, in quanto la struttura risultante m || padding || m′ può apparire semanticamente valida o indistinguibile dall’originale. In questi scenari, non è solo la funzione hash a essere vulnerabile, ma l’intero protocollo di autenticazione.
+
+Per proteggersi da questo tipo di attacco, la contromisura più semplice ed efficace è evitare la costruzione H(s || m) e preferire invece H(m || s), invertendo l’ordine tra il messaggio e il segreto. Così facendo, l’attaccante non può più simulare la continuazione del processo hash, poiché non conosce s, che in questo caso si troverebbe alla fine e quindi sarebbe incluso in blocchi che non può costruire o modificare.
+**schema normale**
+Mittente: Alice
+
+Segreto: s
+Messaggio: m
+
+Calcolo:
+  H(s || m) = HASH OUTPUT
+
+Schema interno:
+
+  [ IV ] ──▶ f ──▶ f ──▶ ... ──▶ f ──▶ Final ──▶ H(s || m)
+              ▲       ▲              ▲
+             s_1     m_1          padding
+**lenght extension attack**
+Attaccante:
+
+Conosce: m, H(s || m)
+Non conosce: s
+
+Obiettivo: costruire m* = m || padding || m′ e ottenere H(s || m || padding || m′)
+
+Strategia:
+  1. Usa H(s || m) come stato iniziale fittizio.
+  2. Aggiunge blocchi m′ personalizzati.
+  3. Continua il calcolo come se fosse legittimo.
+
+Schema:
+
+  [ H(s || m) ] ──▶ f ──▶ f ──▶ Final ──▶ H(s || m || padding || m′)
+                      ▲       ▲
+                   m′_1     m′_2 (scelti dall’attaccante)
+
+Messaggio forgiato inviato:
+  m* = m || padding || m′
+  hash_falsificato = H(s || m || padding || m′)
+
 </details>
 
