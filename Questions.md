@@ -112,9 +112,9 @@ Messaggio forgiato inviato:
 <details>
 <summary>Osservare lo schema KDC e riportare se lo schema è vulnerabile e se lo è in che modo</summary>
  
-  **Lo schema di implementazione di questo centro di distribuzione delle chiavi**, così com’è, non è vulnerabile nel senso della riservatezza a patto che:
-Il database in cui T custodisce le master key Ka e Kb sia assolutamente protetto, e inoltre Ka e Kb devono essere impossibili da dedurre, intercettare o indovinare.
-I numeri random Ra ed Rb devono essere assolutamente causali, imprevedibili e indeducibili (altrimenti il protocollo sarebbe vulnerabile nella fase in cui le parti si identificano tra di loro)
+  **Lo schema di implementazione di questo centro di distribuzione delle chiavi**, così com’è, non è vulnerabile nel senso della **riservatezza** a patto che:
+Il database in cui T custodisce le master key **Ka** e **Kb** sia assolutamente protetto, e inoltre **Ka** e **Kb** devono essere impossibili da dedurre, intercettare o indovinare.
+I numeri random **Ra** ed **Rb** devono essere assolutamente causali, imprevedibili e indeducibili (altrimenti il protocollo sarebbe vulnerabile nella fase in cui le parti si identificano tra di loro)
 La chiave di sessione k deve essere casuale, imprevedibile e indeducibile.
 Fatte queste ipotesi il protocollo è robusto dal punto di vista della riservatezza ma non dell’integrità. Un intrusore è sempre in grado di modificare i messaggi a caso e questo può causare un Denial of Service (DoS) perché le parti non riusciranno a cifrare e decifrare correttamente, dunque la sessione sarà invalidata.
 
