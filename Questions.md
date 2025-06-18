@@ -133,6 +133,7 @@ Sarebbe stato possibile evitare questo attacco solo con una precauzione molto co
 Un’interferenza attiva sul canale, come la modifica, la cancellazione o l’inserimento di bit, può provocare perdita di sincronismo. Nei cifrari a flusso sincroni, in cui il keystream dipende unicamente dalla chiave segreta e non dai dati trasmessi, la perdita o l’inserimento di un singolo bit compromette definitivamente la sincronizzazione tra le parti. Da quel momento in poi, la decifrazione produrrà risultati errati per tutto il messaggio successivo. Tuttavia, un errore isolato, come la modifica di un singolo bit durante la trasmissione, non compromette il sincronismo: l’errore resta confinato a quel bit e non si propaga oltre.
 
 Nei cifrari a flusso autosincronizzanti, invece, il keystream è calcolato in funzione di una finestra dei bit precedenti del testo cifrato, solitamente gestita tramite uno shift register. In questo caso, ogni bit del keystream dipende da un numero fisso di bit cifrati precedenti (es. gli ultimi n bit). Di conseguenza, qualunque tipo di attacco attivo sul canale — che sia modifica, cancellazione o inserimento di bit — provoca una perdita temporanea di sincronismo, ma questa si auto-corregge dopo l’elaborazione di n bit corretti. Il periodo in cui il ricevente produce output errato a causa della perdita di sincronizzazione è detto transitorio, e ha una durata esattamente pari alla lunghezza dello shift register usato, cioè n bit. Superato questo intervallo, la corretta sincronizzazione viene ripristinata automaticamente, rendendo i cifrari autosincronizzanti più resilienti alla corruzione del canale rispetto ai cifrari sincroni.
+</details>
 
 <details>
   <summary>Descrivere in termine di propagazione dell'errore le differenze tra le modalità di cifratura: ECB, CBC, OFB, CFB e CTR
@@ -150,4 +151,4 @@ Infine, **la modalità CTR (Counter Mode)** impiega un contatore che viene cifra
 
 
 
-</details>
+
