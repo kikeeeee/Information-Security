@@ -64,6 +64,8 @@ L’unica difficoltà per l’attaccante sta nell’indovinare la lunghezza di s
 Anche nei casi in cui lo schema di compressione iterata includa padding alla fine del messaggio, l’attacco resta pericoloso. Questo è particolarmente vero quando il messaggio m ha forma numerica o binaria e il sistema ricevente non è in grado di distinguere tra messaggi originari e quelli estesi artificialmente, in quanto la struttura risultante m || padding || m′ può apparire semanticamente valida o indistinguibile dall’originale. In questi scenari, non è solo la funzione hash a essere vulnerabile, ma l’intero protocollo di autenticazione.
 
 Per proteggersi da questo tipo di attacco, la contromisura più semplice ed efficace è evitare la costruzione H(s || m) e preferire invece H(m || s), invertendo l’ordine tra il messaggio e il segreto. Così facendo, l’attaccante non può più simulare la continuazione del processo hash, poiché non conosce s, che in questo caso si troverebbe alla fine e quindi sarebbe incluso in blocchi che non può costruire o modificare.
+
+
 **schema normale**
 Mittente: Alice
 
@@ -78,6 +80,8 @@ Schema interno:
   [ IV ] ──▶ f ──▶ f ──▶ ... ──▶ f ──▶ Final ──▶ H(s || m)
               ▲       ▲              ▲
              s_1     m_1          padding
+
+             
 **lenght extension attack**
 Attaccante:
 
