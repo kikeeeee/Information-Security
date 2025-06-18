@@ -109,3 +109,19 @@ Messaggio forgiato inviato:
 </pre>
 </details>
 
+<details>
+<summary>Osservare lo schema KDC e riportare se lo schema è vulnerabile e se lo è in che modo</summary>
+ 
+  **Lo schema di implementazione di questo centro di distribuzione delle chiavi**, così com’è, non è vulnerabile nel senso della riservatezza a patto che:
+Il database in cui T custodisce le master key Ka e Kb sia assolutamente protetto, e inoltre Ka e Kb devono essere impossibili da dedurre, intercettare o indovinare.
+I numeri random Ra ed Rb devono essere assolutamente causali, imprevedibili e indeducibili (altrimenti il protocollo sarebbe vulnerabile nella fase in cui le parti si identificano tra di loro)
+La chiave di sessione k deve essere casuale, imprevedibile e indeducibile.
+Fatte queste ipotesi il protocollo è robusto dal punto di vista della riservatezza ma non dell’integrità. Un intrusore è sempre in grado di modificare i messaggi a caso e questo può causare un Denial of Service (DoS) perché le parti non riusciranno a cifrare e decifrare correttamente, dunque la sessione sarà invalidata.
+
+Con la presenza dei passaggi 4 e 5 un attacco con replica al passaggio 3 sarebbe evitato solo nel modello di minaccia in cui l’intrusore fosse in grado di avviare un attacco attivo sul canale che interconnette A e B, ma non conosca completamente la chiave di sessione k o ne abbia una conoscenza solo parziale.
+
+Se consideriamo il modello di minaccia più sfortunato in cui l’attaccante sia riuscito a decifrare la chiave di sessione K, l’attacco con replica al passaggio 3 avrebbe successo. L’intrusore potrebbe avviare una comunicazione con B facendo partire il protocollo direttamente al passaggio 3 grazie al messaggio precedentemente intercettato. Grazie alla conoscenza di K potrebbe quindi impersonificare A rispondendo correttamente alla sfida al passaggio 5 e da quel momento catturare ogni informazione inviata successivamente.
+Sarebbe stato possibile evitare questo attacco solo con una precauzione molto costosa, ovvero quella di far tenere traccia a B di tutte le chiavi di sessione precedentemente utilizzate, in modo da rivelare l’attacco, ma nello schema proposto non è previsto.
+È prevista tuttavia una soluzione parziale a questa vulnerabilità visto che KDC attribuisce un tempo di vita limitato alle chiavi di sessione.
+
+</details>
