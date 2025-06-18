@@ -65,7 +65,7 @@ Anche nei casi in cui lo schema di compressione iterata includa padding alla fin
 
 Per proteggersi da questo tipo di attacco, la contromisura più semplice ed efficace è evitare la costruzione H(s || m) e preferire invece H(m || s), invertendo l’ordine tra il messaggio e il segreto. Così facendo, l’attaccante non può più simulare la continuazione del processo hash, poiché non conosce s, che in questo caso si troverebbe alla fine e quindi sarebbe incluso in blocchi che non può costruire o modificare.
 
-
+<pre>
 **schema normale**
 Mittente: Alice
 
@@ -104,6 +104,6 @@ Schema:
 Messaggio forgiato inviato:
   m* = m || padding || m′
   hash_falsificato = H(s || m || padding || m′)
-
+</pre>
 </details>
 
