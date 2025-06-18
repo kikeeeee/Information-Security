@@ -205,3 +205,35 @@ Un TRNG non può essere utilizzato per generare un flusso di chiavi per due moti
 
 </details>
 
+<details>
+  <summary>
+    Descrivere le tipologie di modelli di distribuzione/accordo di chiavi simmetriche evidenziando anche gli scenari in cui è conveniente adottare un modello rispetto ad un altro.
+  </summary>
+  
+  **Esistono due famiglie di modelli** per la distribuzione/accordo di chiavi simmetriche tra due entità:
+  
+* Una famiglia che prevede che in precedenza ci sia stato un Key Agreement tra le entità, ovvero sia stato distribuito almeno una volta un segreto tra le entità, attraverso un canale dedicato fuori banda. Appartengono a questa famiglia due modelli, il **modello Master Key** e il **modello KDC (Key Distribution Center)**
+* Una famiglia che non prevede Key Agreement. In questo caso viene utilizzato o un protocollo di scambio detto di **Diffie-Hellman** oppure un **cifrario asimmetrico**.
+
+**Il Modello Master Key** prevede che le entità siano già in possesso di un segreto condiviso con l’altra entità, chiamato Master Key, che non viene utilizzato per cifrare messaggi. Siccome la distribuzione di un segreto su canale dedicato è molto costosa, per preservare questo segreto si faranno circolare il minor numero di testi cifrati possibili prodotti con l’uso della Master Key. I messaggi verranno cifrati con delle chiavi, dette di sessione, che verranno distribuite in forma cifrata all’altra entità sul canale insicuro, reso sicuro dall’uso della Master Key, che ne preserva la riservatezza. La Master Key, quindi, avrà vita più lunga possibile e verrà usata solo per cifrare chiavi di sessione. La chiave di sessione invece verrà cambiata spesso per evitare che un intrusore possa intercettare un alto numero di testi cifrati con la stessa chiave e possa dedurre qualche informazione. Questo modello ha un grosso problema di scalabilità visto che il numero di Master Key che devono essere scambiate su canale dedicato è proporzionale a n^2, dove n è il numero di entità.
+
+**Il modello KDC** non risolve completamente il problema della scalabilità ma lo migliora, in quanto prevede un numero di chiavi che devono essere scambiate su un canale dedicato pari a n, ovvero una chiave per ogni entità. Per realizzare questo modello però dobbiamo introdurre una terza parte chiamata centro di distribuzione delle chiavi (KDC – Key Distribution Center). L’ipotesi che assumiamo è che le entità A e B abbiano condiviso con T, entità fidata del KDC, rispettivamente le chiavi Ka e Kb, in maniera totalmente sicura e tale da non poter essere indovinate, dedotte o intercettate. Quando l’entità A vorrà comunicare con B in forma cifrata, dovrà inviare a T la richiesta per ricevere una chiave di sessione. T quindi genererà la chiave e la distribuirà in maniera sicura ad A. A quindi metterà anche B in condizione di conoscere quella chiave che entrambi useranno per cifrare e decifrare i messaggi che si scambiano.
+
+Gli scenari in cui è conveniente usare questi modelli sono quelli chiusi, con un numero di utenti limitato, ad esempio scenari in cui è necessario garantire riservatezza ai messaggi scambiati tra entità all’interno di una rete aziendale.
+
+Per quanto riguarda la famiglia di modelli per la distribuzione/accordo di chiavi simmetriche tra due entità, **senza un precedente Key Agreement**, è possibile utilizzare il protocollo di **Diffie- Hellman**, che è un meccanismo crittografico che si basa sul problema difficile della teoria dei numeri (il problema del logaritmo discreto), e consente a due entità di concordare un segreto scambiandosi delle informazioni sul canale insicuro.
+
+Un altro modo per distribuire una chiave simmetrica tra entità senza precedenti Key Agreement è l’utilizzo di cifrari asimmetrici. Le due parti possono scambiarsi chiavi di sessione in forma cifrata sfruttando il requisito di autenticità della chiave pubblica, garantito dall’infrastruttura a chiave pubblica (PKI).
+
+Queste ultime due soluzioni sono convenienti da usare in quegli scenari aperti, in cui abbiamo un numero di utenti che è in continuo aumento e quindi è necessario che venga garantito il requisito della scalabilità.
+
+</details>
+
+<details>
+  <summary>
+    Supponiamo che Alice utilizzi la modalità CBC per inviare un messaggio cifrato (ciphertext) a Bob e si sia dimenticata il valore del vettore di inizializzazione IV. Può ricostruire il testo in chiaro per intero o solo parzialmente? Se interamente spiegare perché e se parzialmente spiegare quali parti può ricostruire.
+  </summary>
+  
+  **Con la modalità CBC**, in fase di decifrazione se non si ha la disponibilità del vettore di inizializzazione IV il messaggio può essere ricostruito solo parzialmente. In particolare, possono essere decifrati tutti i blocchi di cifrato ad esclusione del primo. Questo perché nello schema di decifrazione strutturato in pipeline, il vettore di inizializzazione va ad influenzare solo la ricostruzione del primo blocco di cifrato, sommandosi in XOR all’uscita della trasformazione D applicata al primo blocco, e non ha alcuna influenza ai passi successivi della decifrazione, in cui in XOR all’uscita della trasformazione D si vanno a sommare i blocchi di cifrato al passo precedente. (Però prof… l’IV passa in chiaro all’inizio della conversazione, come cazzo fa Bob a perderlo se glielo abbiamo appena mandato => bob è un rimasto)
+
+</details>
