@@ -24,7 +24,7 @@ Questo schema è efficiente e riutilizzabile, ma presenta una debolezza struttur
   </summary>
   
   **Come funziona lo schema KDC** presente nel file: 
-  **Ricordando che D => Decryptors ( traduce ) e E => Encryption
+  **Ricordando che D => Decryptors ( traduce ) e E => Encryption**
   * A invia al KDC:
   R_A: un nonce (numero casuale) per prevenire replay.
   A e B: identificativi delle entità che vogliono comunicare.
