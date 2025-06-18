@@ -196,7 +196,7 @@ Un TRNG non può essere utilizzato per generare un flusso di chiavi per due moti
 
 **I vantaggi** della modalità CBC sono:
 * Aleatorietà dell’uscita, a patto che il vettore di inizializzazione sia casuale, imprevedibile e usato una e una sola volta.
-* 
+  
 **Gli svantaggi** sono:
 * La struttura a pipeline impedisce il processamento in parallelo dei singoli blocchi, quindi efficienza minore rispetto alla modalità ECB
 * Il padding introduce un overhead (anche EBC ha il padding, è un malus ma non è un peggioramento rispetto a ECB)
