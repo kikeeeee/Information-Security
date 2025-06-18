@@ -125,3 +125,19 @@ Sarebbe stato possibile evitare questo attacco solo con una precauzione molto co
 È prevista tuttavia una soluzione parziale a questa vulnerabilità visto che KDC attribuisce un tempo di vita limitato alle chiavi di sessione.
 
 </details>
+<details>
+  <summary>Descrivere i cifrari a flusso. Evidenziare le differenze in termine di perdita di sincronismo tra cifrari a flusso sincrono e autosincronizzante. Nei cifrari a flusso autosincronizzante quanto è "lungo" un transitorio dovuto alla perdita di sincronismo?</summary>
+  I cifrari a flusso sono schemi crittografici ispirati al concetto teorico del One-Time Pad, considerato il cifrario perfetto nella crittografia classica. In pratica, invece di usare una chiave completamente casuale e lunga quanto il messaggio (come nel One-Time Pad), si impiega un generatore pseudocasuale crittograficamente sicuro (PRNG) per produrre un flusso di chiave (keystream) da combinare con il testo in chiaro. Questa combinazione avviene bit per bit tramite un’operazione di somma modulo 2 (XOR), che è simmetrica: la stessa operazione serve sia per cifrare che per decifrare. Poiché mittente e destinatario devono generare lo stesso flusso di chiave in modo sincronizzato, la corretta decifrazione richiede che entrambi siano perfettamente allineati nella generazione del keystream.
+
+Un’interferenza attiva sul canale, come la modifica, la cancellazione o l’inserimento di bit, può provocare perdita di sincronismo. Nei cifrari a flusso sincroni, in cui il keystream dipende unicamente dalla chiave segreta e non dai dati trasmessi, la perdita o l’inserimento di un singolo bit compromette definitivamente la sincronizzazione tra le parti. Da quel momento in poi, la decifrazione produrrà risultati errati per tutto il messaggio successivo. Tuttavia, un errore isolato, come la modifica di un singolo bit durante la trasmissione, non compromette il sincronismo: l’errore resta confinato a quel bit e non si propaga oltre.
+
+Nei cifrari a flusso autosincronizzanti, invece, il keystream è calcolato in funzione di una finestra dei bit precedenti del testo cifrato, solitamente gestita tramite uno shift register. In questo caso, ogni bit del keystream dipende da un numero fisso di bit cifrati precedenti (es. gli ultimi n bit). Di conseguenza, qualunque tipo di attacco attivo sul canale — che sia modifica, cancellazione o inserimento di bit — provoca una perdita temporanea di sincronismo, ma questa si auto-corregge dopo l’elaborazione di n bit corretti. Il periodo in cui il ricevente produce output errato a causa della perdita di sincronizzazione è detto transitorio, e ha una durata esattamente pari alla lunghezza dello shift register usato, cioè n bit. Superato questo intervallo, la corretta sincronizzazione viene ripristinata automaticamente, rendendo i cifrari autosincronizzanti più resilienti alla corruzione del canale rispetto ai cifrari sincroni.
+
+
+
+
+
+
+
+
+</details>
