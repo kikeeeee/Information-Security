@@ -24,13 +24,17 @@ Questo schema è efficiente e riutilizzabile, ma presenta una debolezza struttur
   </summary>
   
   **Come funziona lo schema KDC** presente nel file: 
+  **Ricordando che D => Decryptors ( traduce ) e E => Encryption
   * A invia al KDC:
   R_A: un nonce (numero casuale) per prevenire replay.
   A e B: identificativi delle entità che vogliono comunicare.
-  * Il KDC genera e manda a B:
+  * Il KDC genera e manda a A:
   Una chiave di sessione k.
   Un pacchetto per A, cifrato con la sua chiave segreta K_A, contenente il nonce di A (R_A), l’identificativo di B e la session key k.
   Un ticket per B: E_KB(A || k), che A non può leggere, ma può inoltrare a B.
-
+  * A invia a B il ticket, che serve a dimostrare che il KDC ha autorizzato A a parlare con B, e include la session key k.
+  * B estrae k, e invia un numero casuale R_B cifrato con k per verificare che A conosca la chiave di sessione.
+  * A risponde correttamente cifrando R_B - 1, dimostrando così di conoscere k.
+    
 
 </details>
