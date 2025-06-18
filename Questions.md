@@ -170,4 +170,17 @@ I cifrari a blocchi in linea generale si ispirano ai cifrari poligrafici compost
 </details>
 
 
+<details>
+  <summary>
+    Quando perde sincronismo un cifrario a flusso sincrono? Quali sono le condizioni necessarie che rendono sicuro l'utilizzo di un cifrario a flusso sincrono? Si può utilizzare un TRNG per generare il flusso di chiave in un cifrario a flusso sincrono? Motivare le risposte.
+  </summary>
+  Un cifrario a flusso sincrono perde sincronismo quando sul canale di trasmissione viene effettuato un attacco attivo che provoca la cancellazione di un bit o l’iniezione di un bit fake sul flusso del cifrato. Da quel momento in poi si verifica una perdita di sincronismo definitiva tra sorgente e destinazione e la decifrazione non avviene più correttamente. Questo perché, nei due casi sopra citati, la conseguenza dell’attacco sarà una non corrispondenza tra l’i-esimo bit del messaggio in chiaro e l’i-esimo bit del flusso di chiave, condizione necessaria per una corretta decifrazione.
+La generazione del flusso di chiave usato nei cifrari a flusso deve essere assolutamente casuale, imprevedibile, indeducibile e usata una volta sola.
+Un TRNG non può essere utilizzato per generare un flusso di chiavi per due motivi:
+
+Per sua natura non permette riproducibilità del flusso di chiave, e questo è fondamentale nei cifrari a flusso in cui è necessario avere lo stesso flusso di chiave lato sorgente e lato destinazione.
+Per sua natura il TRNG non può garantire un’elevata frequenza di generazione, in quanto la sequenza di bit casuali viene estratta da un processo di campionamento, filtraggio e post-produzione di fenomeni naturali che non possono verificarsi in base alle nostre esigenze.
+
+</details>
+
 
