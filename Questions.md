@@ -252,3 +252,6 @@ Motivare la risposta
   </summary>
 Se Alice è in grado di trovare un messaggio M’ con impronta uguale a M, ovvero tale che H(M)=H(M’) è possibile. Questo perché indipendentemente del segreto Ka, in questo caso si avrà sempre che H(M||Ka) = H(M’||Ka), quindi H(M||Ka) sarà un autenticatore anche per M’ e non solo per M. Per tutte le funzioni hash le collisioni possono sempre esserci; infatti, nella realtà tutti gli algoritmi di cui disponiamo per la realizzazione di funzioni hash non hanno realmente un comportamento da oracolo casuale. È per questo che per aumentare l’aleatorietà nel comportamento di una funzione hash e ridurre attacchi di questo tipo, detti attacchi alla collisione, nella pratica non ci si limita ad effettuare una compressione sola ma una doppia compressione.
 </details>
+<head>
+  
+  **Cap 5**</head>
