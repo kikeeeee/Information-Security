@@ -237,3 +237,11 @@ Queste ultime due soluzioni sono convenienti da usare in quegli scenari aperti, 
   **Con la modalità CBC**, in fase di decifrazione se non si ha la disponibilità del vettore di inizializzazione IV il messaggio può essere ricostruito solo parzialmente. In particolare, possono essere decifrati tutti i blocchi di cifrato ad esclusione del primo. Questo perché nello schema di decifrazione strutturato in pipeline, il vettore di inizializzazione va ad influenzare solo la ricostruzione del primo blocco di cifrato, sommandosi in XOR all’uscita della trasformazione D applicata al primo blocco, e non ha alcuna influenza ai passi successivi della decifrazione, in cui in XOR all’uscita della trasformazione D si vanno a sommare i blocchi di cifrato al passo precedente. (Però prof… l’IV passa in chiaro all’inizio della conversazione, come cazzo fa Bob a perderlo se glielo abbiamo appena mandato => bob è un rimasto)
 
 </details>
+
+<details>
+  <summary>
+    Bob, per chiedere a Charlie di effettuare una certa azione, deve dimostrare che Alice è d’accordo. La richiesta è contenuta in un messaggio M che in linguaggio naturale creato da Bob. Il protocollo usato è il seguente, dove Ka è un segreto condiviso tra Alice e Charlie. Se l’hash inviato in messaggio è corretto Charlie accetta la richiesta. Supponi che Alice voglia far credere a Charlie che Bob abbia richiesto di autorizzare il messaggio M’. Pensi sia possibile?
+Motivare la risposta
+  </summary>
+Se Alice è in grado di trovare un messaggio M’ con impronta uguale a M, ovvero tale che H(M)=H(M’) è possibile. Questo perché indipendentemente del segreto Ka, in questo caso si avrà sempre che H(M||Ka) = H(M’||Ka), quindi H(M||Ka) sarà un autenticatore anche per M’ e non solo per M. Per tutte le funzioni hash le collisioni possono sempre esserci; infatti, nella realtà tutti gli algoritmi di cui disponiamo per la realizzazione di funzioni hash non hanno realmente un comportamento da oracolo casuale. È per questo che per aumentare l’aleatorietà nel comportamento di una funzione hash e ridurre attacchi di questo tipo, detti attacchi alla collisione, nella pratica non ci si limita ad effettuare una compressione sola ma una doppia compressione.
+</details>
