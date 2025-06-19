@@ -1,3 +1,6 @@
+<head>
+  
+  **Cap 2**</head>
 <details>
   <summary>Descrivere tutte le proprietà delle funzioni hash crittograficamente sicure e almeno un esempio di attacco alle funzioni hash crittograficamente sicure.
 </summary>
@@ -108,6 +111,10 @@ Messaggio forgiato inviato:
   hash_falsificato = H(s || m || padding || m′)
 </pre>
 </details>
+
+<head>
+  
+  **Cap 3-4**</head>
 
 <details>
 <summary>Osservare lo schema KDC e riportare se lo schema è vulnerabile e se lo è in che modo</summary>
